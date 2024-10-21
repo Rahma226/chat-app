@@ -14,6 +14,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  
   final _controller = ScrollController();
   CollectionReference messages =
       FirebaseFirestore.instance.collection(KMessagesCollections);

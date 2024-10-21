@@ -96,7 +96,8 @@ class _ResgisterPageState extends State<ResgisterPage> {
                         setState(() {});
                         try {
                           await registerUser();
-                          Navigator.pushNamed(context, ChatPage.id, arguments: email);
+                          Navigator.pushNamed(context, ChatPage.id,
+                              arguments: email);
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'weak-password') {
                             showSnakBar(
@@ -108,7 +109,7 @@ class _ResgisterPageState extends State<ResgisterPage> {
                         } catch (e) {
                           print('there was an error');
                         }
-          
+
                         isloading = false;
                         setState(() {});
                       }
@@ -149,7 +150,6 @@ class _ResgisterPageState extends State<ResgisterPage> {
     );
   }
 
-  
   Future<void> registerUser() async {
     UserCredential user = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email!, password: password!);
