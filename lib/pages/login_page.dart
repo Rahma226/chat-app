@@ -1,5 +1,5 @@
+import 'package:chat_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:chat_app/constants.dart';
-import 'package:chat_app/cubits/login_cubit/login_cubit.dart';
 import 'package:chat_app/helper/showSnakBar.dart';
 import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/pages/register_page.dart';
@@ -17,21 +17,18 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   return BlocConsumer<LoginCubit, LoginState>(
-      listener: (context, state) {
-        if (state is LoginLoading) {
-          isLoading = true;
-        } else if (state is LoginSuccess) {
-          Navigator.pushNamed(context, ChatPage.id, arguments: email);
-          isLoading = false;
-        } else if (state is LoginFailure) {
-          showSnakBar(context, state.errMessage);
-          isLoading = false;
-        }
-      },
-      builder: (context, state) {
-         
-         return ModalProgressHUD(
+    return BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+      if (state is LoginLoading) {
+        isLoading = true;
+      } else if (state is LoginSuccess) {
+        Navigator.pushNamed(context, ChatPage.id, arguments: email);
+        isLoading = false;
+      } else if (state is LoginFailure) {
+        showSnakBar(context, state.errMessage);
+        isLoading = false;
+      }
+    }, builder: (context, state) {
+      return ModalProgressHUD(
         inAsyncCall: isLoading,
         child: Scaffold(
           backgroundColor: kPrimaryColor,
@@ -90,8 +87,8 @@ class LoginPage extends StatelessWidget {
                     CustomBotton(
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
-                          BlocProvider.of<LoginCubit>(context)
-                              .LoginUser(email: email!, password: password!);
+                          BlocProvider.of<AuthBloc>(context).add(
+                              LoginEvent(email: email!, password: password!));
                         }
                       },
                       text: 'Login',
@@ -122,7 +119,6 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       );
-      }
-    );
+    });
   }
 }

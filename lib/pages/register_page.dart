@@ -1,5 +1,5 @@
+import 'package:chat_app/blocs/auth_bloc/auth_bloc.dart';
 import 'package:chat_app/constants.dart';
-import 'package:chat_app/cubits/register_cubit/register_cubit.dart';
 import 'package:chat_app/helper/showSnakBar.dart';
 import 'package:chat_app/pages/chat_page.dart';
 import 'package:chat_app/widgets/custom_botton.dart';
@@ -18,7 +18,7 @@ class ResgisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterCubit, RegisterState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is RegiterLoading) {
           isloading = true;
@@ -30,7 +30,7 @@ class ResgisterPage extends StatelessWidget {
           isloading = false;
         }
       },
-      builder:(context , state) => ModalProgressHUD(
+      builder: (context, state) => ModalProgressHUD(
         inAsyncCall: isloading,
         child: Scaffold(
           backgroundColor: kPrimaryColor,
@@ -97,8 +97,8 @@ class ResgisterPage extends StatelessWidget {
                     CustomBotton(
                       onTap: () async {
                         if (formKey.currentState!.validate()) {
-                          BlocProvider.of<RegisterCubit>(context)
-                              .RegiterUser(email: email!, password: password!);
+                          BlocProvider.of<AuthBloc>(context).add(RegisterEvent(
+                              email: email!, password: password!));
                         }
                       },
                       text: 'Register',
