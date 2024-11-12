@@ -3,17 +3,9 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_options.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -29,17 +21,17 @@ class DefaultFirebaseOptions {
         return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
+          'DefaultFirebaseOptions have not been configured for macOS - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
+          'DefaultFirebaseOptions have not been configured for Windows - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
+          'DefaultFirebaseOptions have not been configured for Linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
@@ -49,20 +41,20 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBjvdJ_8bN5aKabwwWDcotuMH1DQPPNxM0',
-    appId: '1:634393979256:android:fa2087a8c76a03f6ea408d',
-    messagingSenderId: '634393979256',
-    projectId: 'chat-app-28ac6',
-    storageBucket: 'chat-app-28ac6.appspot.com',
+  static FirebaseOptions get android => FirebaseOptions(
+    apiKey: dotenv.env['ANDROID_API_KEY']!,
+    appId: dotenv.env['ANDROID_APP_ID']!,
+    messagingSenderId: dotenv.env['MESSAGING_SENDER_ID']!,
+    projectId: dotenv.env['PROJECT_ID']!,
+    storageBucket: dotenv.env['STORAGE_BUCKET']!,
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBR53OT1Bf0Rpp9wFXPFoMU9dbCO3CG8Uk',
-    appId: '1:634393979256:ios:8856d1bb04996919ea408d',
-    messagingSenderId: '634393979256',
-    projectId: 'chat-app-28ac6',
-    storageBucket: 'chat-app-28ac6.appspot.com',
-    iosBundleId: 'com.example.chatApp',
+  static FirebaseOptions get ios => FirebaseOptions(
+    apiKey: dotenv.env['IOS_API_KEY']!,
+    appId: dotenv.env['IOS_APP_ID']!,
+    messagingSenderId: dotenv.env['MESSAGING_SENDER_ID']!,
+    projectId: dotenv.env['PROJECT_ID']!,
+    storageBucket: dotenv.env['STORAGE_BUCKET']!,
+    iosBundleId: dotenv.env['IOS_BUNDLE_ID']!,
   );
 }
